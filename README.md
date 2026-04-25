@@ -29,16 +29,20 @@ Clone the repository
 
 git clone https://github.com/mahima-reactdev/financial-data-explorer.git
 
-Install dependencies
-
+Install backend dependencies
+cd server
 npm install
 
-Run backend
+Install frontend dependencies
+cd client
+npm install
 
+Start backend server
 npm run dev
 
-Run frontend
-
+Start frontend
+npm start
+OR
 npm run dev
 
 ---------------------- API-----------------------------------------------
