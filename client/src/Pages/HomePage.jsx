@@ -45,7 +45,7 @@ const Home = () => {
                 </select>
 
                 <button className="btn btn-dark" onClick={handleSearch}>
-                    Search
+                  {loading ? "Loading....." :"Search"}
                 </button>
                
             </div>
