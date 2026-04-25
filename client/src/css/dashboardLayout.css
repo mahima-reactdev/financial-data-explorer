@@ -1,14 +1,18 @@
 /* Dashboard.css */
 .dashboard-container {
   display: flex;
-  min-height: 100vh;
   background-color: #fcf9f1; 
+  height: 100vh;  
+  overflow: hidden;
 }
 
 .sidebar {
   width: 260px;
+ height: 100vh;
   background-color: #0d1627; 
   color: white;
+  position: sticky;
+  top: 0;
   transition: transform 0.3s ease-in-out;
   z-index: 1040;
 }
@@ -40,9 +44,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; 
+  /* min-width: 0;  */
+   overflow: hidden; 
 }
-
+.content-area {
+  flex: 1;
+  overflow-y: auto;  
+}
 /* Header Styling */
 .top-header {
   background-color: white;
@@ -63,7 +71,7 @@
   box-shadow: none !important;
 }
 
-/* Mobile Responsive Adjustments */
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;

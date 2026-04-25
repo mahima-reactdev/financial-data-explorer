@@ -9,8 +9,8 @@ export const FinanceProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [type, setType] = useState("");
+    const [companyName, setCompanyName] = useState("");
 
-    // 🔹 Load data when page refresh
     useEffect(() => {
         const saved = localStorage.getItem("financeData");
 
@@ -18,10 +18,12 @@ export const FinanceProvider = ({ children }) => {
             const parsed = JSON.parse(saved);
             setData(parsed.data);
             setType(parsed.type);
+            setCompanyName(parsed.name);
         }
     }, []);
 
-    const getCompany = async (cik, type) => {
+    const getCompany = async (cik, type,name) => {
+         setCompanyName(name);
         setLoading(true);
         setError("");
 
@@ -31,10 +33,9 @@ export const FinanceProvider = ({ children }) => {
             setData(result);
             setType(type);
 
-            // 🔹 Save data in localStorage
             localStorage.setItem(
                 "financeData",
-                JSON.stringify({ data: result, type })
+                JSON.stringify({ data: result, type, name })
             );
 
         } catch (error) {
@@ -45,7 +46,7 @@ export const FinanceProvider = ({ children }) => {
     };
 
     return (
-        <FinanceContext.Provider value={{ data, loading, error, type, getCompany }}>
+        <FinanceContext.Provider value={{ data, loading, error, type, getCompany,companyName }}>
             {children}
         </FinanceContext.Provider>
     );

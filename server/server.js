@@ -9,7 +9,7 @@ app.get("/company/:cik/:type", async (req, res) => {
     try {
         let { cik } = req.params;
         cik = cik.padStart(10, "0");
-      
+
         let type = req.params.type;
         const response = await axios.get(`https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`, {
             headers: {
@@ -19,10 +19,22 @@ app.get("/company/:cik/:type", async (req, res) => {
         const data = response.data.facts["us-gaap"];
         //    console.log (data);
         let result = [];
-        if (type === "revenue") result = data.Revenues?.units?.USD || [];
-        if (type === "assets") result = data.Assets?.units?.USD || [];
-        if (type === "liabilities") result = data.Liabilities?.units?.USD || [];
-        result = result.slice(-5);
+        if (type === "revenue") {
+            result = data?.Revenues?.units?.USD || [];
+        } else if (type === "assets") {
+            result = data?.Assets?.units?.USD || [];
+        } else if (type === "liabilities") {
+            result = data?.Liabilities?.units?.USD || [];
+        } else {
+            return res.status(400).json({
+                error: "Invalid type. Use revenue, assets, or liabilities",
+            });
+        }
+        
+        if (!result.length) {
+            return res.status(404).json({ error: "No data found" });
+        }
+        result = result.slice(-20);
 
         res.json(result);
 

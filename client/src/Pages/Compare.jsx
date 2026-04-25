@@ -124,7 +124,7 @@ const Compare = () => {
             <h3>Compare Companies</h3>
 
 
-            <div className="d-flex gap-2 mb-3">
+            <div className="d-md-flex gap-2 mb-3">
                 <input
                     className="form-control"
                     placeholder="Company 1 (Apple)"
@@ -133,14 +133,14 @@ const Compare = () => {
                 />
 
                 <input
-                    className="form-control"
+                    className="form-control mt-2 mt-md-0"
                     placeholder="Company 2 (Tesla)"
                     value={company2}
                     onChange={(e) => setCompany2(e.target.value)}
                 />
 
                 <select
-                    className="form-select w-auto"
+                    className="form-select w-auto mt-2 mt-md-0"
                     value={type}
                     onChange={(e) => setType(e.target.value)}
                 >
@@ -149,7 +149,7 @@ const Compare = () => {
                     <option value="liabilities">Liabilities</option>
                 </select>
 
-                <button className="btn btn-dark" onClick={fetchData}>
+                <button className="btn btn-dark mt-2 mt-md-0" onClick={fetchData}>
                     {loading ? "Loading..." : "Compare"}
                 </button>
 

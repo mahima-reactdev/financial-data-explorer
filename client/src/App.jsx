@@ -5,6 +5,7 @@ import Home from './Pages/HomePage';
 import Dashboard from './Pages/Dashboard';
 import Compare from './Pages/Compare';
 
+
 function App() {
   return (
     <BrowserRouter>
