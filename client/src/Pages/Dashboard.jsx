@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { FinanceContext } from "../context/FinanceContext";
 import { Line } from "react-chartjs-2";
 
@@ -13,16 +13,16 @@ import {
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const Dashboard = () => {
-    const { data, loading, error, type } = useContext(FinanceContext);
+    const { data, loading, error, type, companyName } = useContext(FinanceContext);
 
-// chart data
+    // chart data
     const chartData = {
         labels: data && data.length > 0 ? data.map((d) => d.fy) : [],
         datasets: [
             {
                 label: "Financial Data",
                 data: data && data.length > 0 ? data.map((d) => d.val) : [],
-                borderColor: "#4CAF50",       
+                borderColor: "#4CAF50",
                 tension: 0.4,
             },
         ],
@@ -55,7 +55,7 @@ const Dashboard = () => {
             {error && <p className="text-danger">{error}</p>}
 
             {!loading && (!data || data.length === 0) && (
-                <p>No data available. Please search a company first.</p>
+                <p>No data available. Please search a correct company Name.</p>
             )}
             {data && data.length > 0 && (
                 <>
@@ -68,23 +68,25 @@ const Dashboard = () => {
                     </button>
                     {/* Table */}
                     <div className="card shadow-sm p-4">
-                        <h5 className="mb-3 text-center fw-bold">{type.toUpperCase()} DATA</h5>
-                        <table className="table table-striped ">
-                            <thead className="table-dark">
-                                <tr>
-                                    <th>Year</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.fy}</td>
-                                        <td>{item.val?.toLocaleString()}</td>
+                        <h5 className="mb-3 text-center fw-bold">{companyName?.toUpperCase()} - {type.toUpperCase()} DATA</h5>
+                        <div className="card1">
+                            <table className="table table-responsive table-striped ">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Value</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {data.map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.fy}</td>
+                                            <td>{item.val?.toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </>
             )}

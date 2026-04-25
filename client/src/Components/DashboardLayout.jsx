@@ -9,7 +9,10 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
+ 
+  const handleClick=()=>{
+    setIsSidebarOpen(false)
+  }
 
   return (
     <div className="dashboard-container">
@@ -21,8 +24,8 @@ const DashboardLayout = ({ children }) => {
 
       {/* Left Sidebar */}
       <aside className={`sidebar d-flex flex-column py-4 ${isSidebarOpen ? 'show' : ''}`}>
-        <div className="px-4 mb-5 d-flex align-items-center justify-content-between">
-          <h5 className="m-0 fw-bold d-flex align-items-center gap-2 text-white">
+        <div className="px-4 mb-5 pb-2 d-flex align-items-center justify-content-between border-bottom border-secondary">
+          <h5 className="m-0 fw-bold d-flex align-items-center gap-2 text-white ">
             <i className="bi bi-bar-chart-line-fill text-light fs-4"></i>
             Financial Data Explorer
           </h5>
@@ -35,23 +38,18 @@ const DashboardLayout = ({ children }) => {
 
         <ul className="nav flex-column mb-auto">
           <li className="nav-item">
-            <NavLink to="/" className="nav-link ">
+            <NavLink to="/" className="nav-link " onClick={handleClick}>
               <i className="bi bi-house"></i> Search Companies
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/dashboard" className="nav-link">
+            <NavLink to="/dashboard" className="nav-link" onClick={handleClick}>
               <i className="bi bi-layout-sidebar"></i> Company Dashboard
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/compare" className="nav-link">
+            <NavLink to="/compare" className="nav-link" onClick={handleClick}>
               <i className="bi bi-arrow-left-right"></i> Compare Companies
-            </NavLink>
-          </li>
-          <li className="nav-item mt-4">
-            <NavLink to="/setting" className="nav-link">
-              <i className="bi bi-gear"></i> Settings
             </NavLink>
           </li>
         </ul>
@@ -61,11 +59,10 @@ const DashboardLayout = ({ children }) => {
               className="bg-secondary rounded-circle d-flex align-items-center justify-content-center fw-bold"
               style={{ width: '40px', height: '40px' }}
             >
-              JD
+              MP
             </div>
             <div>
-              <span className="d-block fw-semibold" style={{ fontSize: '0.9rem' }}>John D.</span>
-              <span className="text-secondary" style={{ fontSize: '0.8rem' }}>Admin</span>
+              <span className="d-block fw-semibold" style={{ fontSize: '0.9rem' }}>Mahima Patel</span>
             </div>
           </div>
         </div>
@@ -83,7 +80,7 @@ const DashboardLayout = ({ children }) => {
 
         </header>
 
-        <div className="p-3 p-md-5 overflow-auto flex-grow-1">
+        <div className=" content-area  p-3 p-md-5 overflow-auto flex-grow-1">
           {children}
         </div>
       </main>

@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.card1{
+    max-height: 550px;
+    overflow-y: auto;
+}
