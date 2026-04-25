@@ -19,6 +19,7 @@ const Compare = () => {
     const [company1, setCompany1] = useState("");
     const [company2, setCompany2] = useState("");
     const [errorMsg, setErrorMsg] = useState("")
+    const [loading, setLoading] = useState(false)
     const [type, setType] = useState("revenue");
 
     const [data1, setData1] = useState([]);
@@ -39,52 +40,65 @@ const Compare = () => {
     }, []);
 
     const fetchData = async () => {
-        try {
-            if (!company1 || !company2) {
-                alert("Please enter different companies");
-                return;
-            }
+    try {
+        setLoading(true);
+        setErrorMsg("");        
+        setData1([]);           
+        setData2([]);
 
-            const cik1 = companyMap[company1.toLowerCase()]
-            const cik2 = companyMap[company2.toLowerCase()]
-
-            if (!cik1 && isNaN(company1) && !cik2 && isNaN(company2)) {
-                setErrorMsg("Both companies are invalid");
-                return;
-            }
-
-            if (!cik1 && isNaN(company1)) {
-                setErrorMsg("Enter valid Company 1");
-                return;
-            }
-
-            if (!cik2 && isNaN(company2)) {
-                setErrorMsg("Enter valid Company 2");
-                return;
-            }
-
-            const res1 = await fetchCompanyData(cik1, type);
-            const res2 = await fetchCompanyData(cik2, type);
-
-            setData1(res1 || []);
-            setData2(res2 || []);
-
-            // save to localStorage
-            localStorage.setItem(
-                "compareData",
-                JSON.stringify({
-                    data1: res1,
-                    data2: res2,
-                    type,
-                    company1,
-                    company2,
-                })
-            );
-        } catch (err) {
-            console.log("Error fetching compare data");
+        if (!company1 || !company2) {
+            setErrorMsg("Please enter both companies");
+            return;
         }
-    };
 
+        const cik1 = companyMap[company1.toLowerCase()];
+        const cik2 = companyMap[company2.toLowerCase()];
+
+        if (!cik1 && isNaN(company1) && !cik2 && isNaN(company2)) {
+            setErrorMsg("Both companies are invalid");
+            return;
+        }
+
+        if (!cik1 && isNaN(company1)) {
+            setErrorMsg("Enter valid Company 1");
+            return;
+        }
+
+        if (!cik2 && isNaN(company2)) {
+            setErrorMsg("Enter valid Company 2");
+            return;
+        }
+
+        const [res1, res2] = await Promise.all([
+            fetchCompanyData(cik1, type),
+            fetchCompanyData(cik2, type),
+        ]);
+
+        if (!res1?.length || !res2?.length) {
+            setErrorMsg("No data found for selected companies");
+            return;
+        }
+
+        setData1(res1);
+        setData2(res2);
+
+        localStorage.setItem(
+            "compareData",
+            JSON.stringify({
+                data1: res1,
+                data2: res2,
+                type,
+                company1,
+                company2,
+            })
+        );
+
+    } catch (err) {
+        setErrorMsg("Something went wrong");
+    } finally {
+        setLoading(false);
+    }
+};
     const chartData = {
         labels: data1?.map((d) => d.fy) || [],
         datasets: [
@@ -136,12 +150,19 @@ const Compare = () => {
                 </select>
 
                 <button className="btn btn-dark" onClick={fetchData}>
-                    Compare
+                    {loading ? "Loading..." : "Compare"}
                 </button>
+
             </div>
 
             {/* Chart */}
             {errorMsg && <p className="text-danger">{errorMsg}</p>}
+            {loading && (
+                <div className="text-center mt-3">
+                    <div className="spinner-border text-dark"></div>
+                    <p>Fetching data...</p>
+                </div>
+            )}
 
             {!errorMsg && data1.length > 0 && data2.length > 0 && (
                 <div className="card p-4">
