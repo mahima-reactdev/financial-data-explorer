@@ -9,9 +9,10 @@ const Home = () => {
     const [search, setSearch] = useState("apple");
     const [type, setType] = useState("revenue");
     const navigate = useNavigate()
-
+console.log(getCompany)
     const handleSearch = async () => {
         let cik = companyMap[search.toLowerCase()] || search;
+        // console.log(cik)
         if (!search.trim()) {
             alert("Please enter a company name or CIK");
             return;
