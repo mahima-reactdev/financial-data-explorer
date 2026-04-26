@@ -29,7 +29,7 @@ export const FinanceProvider = ({ children }) => {
 
         try {
             const result = await fetchCompanyData(cik, type);
-
+  console.log(result)
             setData(result);
             setType(type);
 

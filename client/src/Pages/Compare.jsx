@@ -47,7 +47,7 @@ const Compare = () => {
         setData2([]);
 
         if (!company1 || !company2) {
-            setErrorMsg("Please enter both companies");
+            setErrorMsg("Please enter companies");
             return;
         }
 
@@ -55,7 +55,7 @@ const Compare = () => {
         const cik2 = companyMap[company2.toLowerCase()];
 
         if (!cik1 && isNaN(company1) && !cik2 && isNaN(company2)) {
-            setErrorMsg("Both companies are invalid");
+            setErrorMsg(" companies are invalid");
             return;
         }
 

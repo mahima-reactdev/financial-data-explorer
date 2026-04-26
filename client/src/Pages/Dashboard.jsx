@@ -15,6 +15,7 @@ ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 const Dashboard = () => {
     const { data, loading, error, type, companyName } = useContext(FinanceContext);
 
+    // console.log(companyName)
     // chart data
     const chartData = {
         labels: data && data.length > 0 ? data.map((d) => d.fy) : [],
@@ -55,7 +56,7 @@ const Dashboard = () => {
             {error && <p className="text-danger">{error}</p>}
 
             {!loading && (!data || data.length === 0) && (
-                <p>No data available. Please search a correct company Name.</p>
+                <p>No data available for this company and selected type</p>
             )}
             {data && data.length > 0 && (
                 <>

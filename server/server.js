@@ -30,11 +30,27 @@ app.get("/company/:cik/:type", async (req, res) => {
                 error: "Invalid type. Use revenue, assets, or liabilities",
             });
         }
-        
+
         if (!result.length) {
             return res.status(404).json({ error: "No data found" });
         }
-        result = result.slice(-20);
+        // result = result.slice(-20);
+        result = result.filter(item => item.form === "10-K");
+
+        const uniqueMap = new Map();
+
+        result.forEach(item => {
+            uniqueMap.set(item.fy, item); 
+        });
+
+        result = Array.from(uniqueMap.values());
+
+        // sort by year 
+        result.sort((a, b) => b.fy - a.fy);
+
+        // take last 10 years
+        result = result.slice(0, 20);
+        // console.log(result)
 
         res.json(result);
 
@@ -47,6 +63,7 @@ app.get("/company/:cik/:type", async (req, res) => {
 
 })
 
+app.listen(8080, () => {
+    console.log("server running on http://localhost:8080")
+})
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running"));
